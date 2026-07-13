@@ -27,7 +27,7 @@ const shopSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    item: [
+    items: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Item",

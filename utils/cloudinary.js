@@ -1,7 +1,6 @@
 import { v2 as cloudinary } from "cloudinary";
 import fs from "fs"
 
-console.log(process.env.CLOUDINARY_CLOUD_NAME, "e______________");
 const uploadCloudinary = (file) => {
   cloudinary.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -18,6 +17,6 @@ const uploadCloudinary = (file) => {
      console.log(error)
   }
 };
-console.log("---- ffff----------")
+
 
 export default uploadCloudinary;
