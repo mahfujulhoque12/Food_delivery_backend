@@ -3,38 +3,38 @@ import uploadCloudinary from "../utils/cloudinary.js";
 export const createAndEditShop = async (req, res) => {
   try {
     const { name, city, state, address } = req.body;
+
+    const updateData = {
+      name,
+      city,
+      state,
+      address,
+    };
+
     if (req.file) {
-      image = await uploadCloudinary(req.file.path);
+      updateData.image = await uploadCloudinary(req.file.path);
     }
+
     let shop = await Shop.findOne({ owner: req.userId });
 
     if (!shop) {
-      await Shop.create({
-        name,
-        city,
-        state,
-        address,
-        image,
+      shop = await Shop.create({
+        ...updateData,
         owner: req.userId,
       });
     } else {
-      await Shop.findByIdAndUpdate(shop._id)(
-        {
-          name,
-          city,
-          state,
-          address,
-          image,
-          owner: req.userId,
-        },
-        { new: true },
-      );
+      shop = await Shop.findByIdAndUpdate(shop._id, updateData, {
+        new: true,
+      });
     }
 
-    await Shop.populate("owner");
-    res.status(201).json(shop);
+    await shop.populate("owner");
+
+    return res.status(200).json(shop);
   } catch (error) {
-    return res.status(500).json({ message: `Create Shop Error ${error}` });
+    return res.status(500).json({
+      message: `Create/Edit Shop Error: ${error}`,
+    });
   }
 };
 
@@ -45,10 +45,14 @@ export const getCurrentShop = async (req, res) => {
     );
 
     if (!shop) {
-      return null;
+      return res.status(200).json(null);
     }
+
     return res.status(200).json(shop);
   } catch (error) {
-    return res.status(500).json({ message: `Get Shop Error ${error}` });
+    return res.status(500).json({
+      success: false,
+      message: `Get Shop Error: ${error.message}`,
+    });
   }
 };

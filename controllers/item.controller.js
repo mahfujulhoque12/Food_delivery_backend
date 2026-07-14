@@ -1,4 +1,4 @@
-import Item from "../models/items.model";
+import Item from "../models/items.model.js";
 import Shop from "../models/shop.model.js";
 import uploadCloudinary from "../utils/cloudinary.js";
 
