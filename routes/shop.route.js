@@ -3,6 +3,7 @@ import isAuth from "../middleware/isAuth.js";
 import {
   createAndEditShop,
   getCurrentShop,
+  getShopByCity,
 } from "../controllers/shop.controller.js";
 import { upload } from "../middleware/multer.js";
 
@@ -15,5 +16,6 @@ shopRouter.post(
   createAndEditShop,
 );
 shopRouter.get("/get-shop", isAuth, getCurrentShop);
+shopRouter.get("/get-shopByCity/:city", isAuth, getShopByCity);
 
 export default shopRouter;
