@@ -8,6 +8,7 @@ import authRouter from "./routes/auth.route.js";
 import userRouter from "./routes/user.route.js";
 import shopRouter from "./routes/shop.route.js";
 import itemRouter from "./routes/item.route.js";
+import orderRouter from "./routes/order.route.js";
 
 const app = express();
 
@@ -29,6 +30,7 @@ app.use("/api/auth", authRouter);
 app.use("/api/user", userRouter);
 app.use("/api/shop", shopRouter);
 app.use("/api/item", itemRouter);
+app.use("/api/item", orderRouter);
 
 app.get("/", (req, res) => {
   res.send("Hello, World!");
