@@ -1,5 +1,6 @@
 import Order from "../models/order.model.js";
 import Shop from "../models/shop.model.js";
+import User from "../models/user.model.js";
 
 export const placeOrder = async (req, res) => {
   try {
@@ -69,5 +70,44 @@ export const placeOrder = async (req, res) => {
     return res.status(500).json({
       message: ` Order error ${error.message}`,
     });
+  }
+};
+
+export const getOrders = async (req, res) => {
+  try {
+    const user = await User.findById(req.userId);
+    if (user.role == "user") {
+      const orders = await Order.find({ user: req.userId })
+        .sort({
+          createdAt: -1,
+        })
+        .populate("shopOrders.shop", "name")
+        .populate("shopOrders.owner", "name email mobile")
+        .populate("shopOrders.shopOrderItems.item");
+      return res.status(200).json(orders);
+    } else if (user.role == "owner") {
+      const orders = await Order.find({ "shopOrders.owner": req.userId })
+        .sort({
+          createdAt: -1,
+        })
+        .populate("shopOrders.shop", "name")
+        .populate("user")
+        .populate("shopOrders.shopOrderItems.item");
+
+      const filterOrders = orders.map((order) => ({
+        _id: order._id,
+        paymentMethod: order.paymentMethod,
+        totalAmount: order.totalAmount,
+        deliveryAddress: order.deliveryAddress,
+        createdAt: order.createdAt,
+        user: order.user,
+        shopOrders: order.shopOrders.filter(
+          (shopOrder) => shopOrder.owner._id.toString() === req.userId,
+        ),
+      }));
+      return res.status(200).json(filterOrders);
+    }
+  } catch (error) {
+    return res.status(500).json({ message: `get user order error ${error} ` });
   }
 };
