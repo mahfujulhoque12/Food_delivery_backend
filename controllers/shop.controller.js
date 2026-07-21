@@ -12,7 +12,7 @@ export const createAndEditShop = async (req, res) => {
     };
 
     if (req.file) {
-      updateData.image = await uploadCloudinary(req.file.path);
+      image = await uploadCloudinary(req.file.buffer);
     }
 
     let shop = await Shop.findOne({ owner: req.userId });
@@ -60,8 +60,7 @@ export const getCurrentShop = async (req, res) => {
 export const getShopByCity = async (req, res) => {
   try {
     const { city } = req.params;
-    console.log(req.params, "reqqq");
-    console.log(req.params.city, "cityyyy");
+
     const shops = await Shop.find({
       city: { $regex: new RegExp(`^${city}$`, "i") },
     }).populate("items");
