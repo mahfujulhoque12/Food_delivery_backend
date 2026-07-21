@@ -37,7 +37,7 @@ export const addItem = async (req, res) => {
     return res.status(201).json(shop);
   } catch (error) {
     return res.status(500).json({
-      message: `Item add Error ${error.message}`,
+      message: `Item add Error ${error}`,
     });
   }
 };
