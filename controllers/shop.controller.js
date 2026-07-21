@@ -10,7 +10,7 @@ export const createAndEditShop = async (req, res) => {
       state,
       address,
     };
-
+    let image;
     if (req.file) {
       image = await uploadCloudinary(req.file.buffer);
     }
