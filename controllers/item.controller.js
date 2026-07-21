@@ -8,7 +8,7 @@ export const addItem = async (req, res) => {
 
     let image;
     if (req.file) {
-      image = await uploadCloudinary(req.file.path);
+      image = await uploadCloudinary(req.file.buffer);
     }
     const shop = await Shop.findOne({ owner: req.userId });
     if (!shop) {
@@ -49,7 +49,7 @@ export const editItem = async (req, res) => {
 
     let image;
     if (req.file) {
-      image = await uploadCloudinary(req.file.path);
+      image = await uploadCloudinary(req.file.buffer);
     }
     const item = await Item.findByIdAndUpdate(
       itemId,
