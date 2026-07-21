@@ -42,11 +42,17 @@ export const signUp = async (req, res) => {
     });
     const token = await genToken(user._id);
 
+    // res.cookie("token", token, {
+    //   sameSite: "strict",
+    //   secure: false,
+    //   httpOnly: true,
+    //   maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    // });
     res.cookie("token", token, {
-      sameSite: "strict",
-      secure: false,
       httpOnly: true,
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
     });
     return res.status(201).json({
       success: true,
@@ -84,11 +90,17 @@ export const signIn = async (req, res) => {
     }
     const token = await genToken(user._id);
 
+    // res.cookie("token", token, {
+    //   sameSite: "strict",
+    //   secure: false,
+    //   httpOnly: true,
+    //   maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    // });
     res.cookie("token", token, {
-      sameSite: "strict",
-      secure: false,
       httpOnly: true,
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
     });
     return res.status(200).json({
       success: true,
