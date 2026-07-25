@@ -1,43 +1,5 @@
 import Shop from "../models/shop.model.js";
 import uploadCloudinary from "../utils/cloudinary.js";
-// export const createAndEditShop = async (req, res) => {
-//   try {
-//     const { name, city, state, address } = req.body;
-
-//     const updateData = {
-//       name,
-//       city,
-//       state,
-//       address,
-//     };
-//     let image;
-//     if (req.file) {
-//       image = await uploadCloudinary(req.file.buffer);
-//     }
-
-//     let shop = await Shop.findOne({ owner: req.userId });
-
-//     if (!shop) {
-//       shop = await Shop.create({
-//         ...updateData,
-//         image,
-//         owner: req.userId,
-//       });
-//     } else {
-//       shop = await Shop.findByIdAndUpdate(shop._id, updateData, {
-//         new: true,
-//       });
-//     }
-
-//     await shop.populate("owner");
-
-//     return res.status(200).json(shop);
-//   } catch (error) {
-//     return res.status(500).json({
-//       message: `Create/Edit Shop Error: ${error}`,
-//     });
-//   }
-// };
 
 export const createAndEditShop = async (req, res) => {
   try {
