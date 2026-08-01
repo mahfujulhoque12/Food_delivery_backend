@@ -9,6 +9,7 @@ import userRouter from "./routes/user.route.js";
 import shopRouter from "./routes/shop.route.js";
 import itemRouter from "./routes/item.route.js";
 import orderRouter from "./routes/order.route.js";
+import stripeRouter from "./routes/stripe.route.js";
 
 const app = express();
 
@@ -31,6 +32,7 @@ app.use("/api/user", userRouter);
 app.use("/api/shop", shopRouter);
 app.use("/api/item", itemRouter);
 app.use("/api/item", orderRouter);
+app.use("/api/stripe", stripeRouter);
 
 app.get("/", (req, res) => {
   res.send("Hello, World!");
