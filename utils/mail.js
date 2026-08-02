@@ -8,27 +8,17 @@ console.log({
   hasPassword: !!process.env.SMTP_PASS,
 });
 
-// const transporter = nodemailer.createTransport({
-//   host: "smtp.gmail.com",
-//   port: 465,
-//   secure: true,
-//   family: 4,
-//   auth: {
-//     user: process.env.SMTP_USER,
-//     pass: process.env.SMTP_PASS,
-//   },
-// });
-
 const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
-  port: 587, // ৪৬৫ এর জায়গায় ৫৮৭ করুন
-  secure: false, // পোর্ট ৫৮৭ এর জন্য secure অবশ্যই false হতে হবে
-  family: 4, // IPv4 নিশ্চিত করার জন্য এটি থাকবে
+  port: 465,
+  secure: true,
+  family: 4,
   auth: {
     user: process.env.SMTP_USER,
     pass: process.env.SMTP_PASS,
   },
 });
+
 transporter.verify((err, success) => {
   if (err) {
     console.error("SMTP Verify Error:", err);
