@@ -51,20 +51,23 @@ export const editItem = async (req, res) => {
     if (req.file) {
       image = await uploadCloudinary(req.file.buffer);
     }
-    const item = await Item.findByIdAndUpdate(
-      itemId,
-      {
-        name,
-        category,
-        price,
-        foodType,
-        rating: {
-          average: Number(req.body["rating.average"]),
-          count: Number(req.body["rating.count"]),
-        },
+    const updateData = {
+      name,
+      category,
+      price,
+      foodType,
+      rating: {
+        average: Number(req.body["rating.average"]),
+        count: Number(req.body["rating.count"]),
       },
-      { new: true },
-    );
+    };
+    if (image) {
+      updateData.image = image;
+    }
+
+    const item = await Item.findByIdAndUpdate(itemId, updateData, {
+      new: true,
+    });
     if (!item) {
       return res.status(400).json({ message: "Item not found" });
     }
